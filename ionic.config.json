@@ -1,0 +1,7 @@
+{
+  "name": "Hackerspaces",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
