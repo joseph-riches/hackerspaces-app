@@ -3,5 +3,9 @@
   "integrations": {
     "capacitor": {}
   },
+  "proxies": [{
+    "path": "/directory",
+    "proxyUrl": "https://directory.spaceapi.io/"
+  }],
   "type": "angular"
 }
