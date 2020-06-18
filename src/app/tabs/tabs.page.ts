@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Space } from '../spaces/domain/space';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  savedSpaces: Space[];
+
+  constructor()
+  {
+  }
 
 }

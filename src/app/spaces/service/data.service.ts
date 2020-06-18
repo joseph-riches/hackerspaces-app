@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Listing } from '../domain/listing';
-import { Space } from '../domain/Space';
+import { Space } from '../domain/space';
 
 @Injectable({
   providedIn: 'root'

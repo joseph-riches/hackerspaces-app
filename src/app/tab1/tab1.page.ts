@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from '../spaces/service/data.service';
-import { Space } from '../spaces/domain/Space';
+import { Space } from '../spaces/domain/space';
 
 @Component({
   selector: 'app-tab1',
