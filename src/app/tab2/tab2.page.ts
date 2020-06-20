@@ -36,6 +36,15 @@ export class Tab2Page implements OnInit, OnDestroy {
     this.listings = this.dataService.filterSpaceDirectory(this.searchTerm);
   }
 
+  doRefresh(event)
+  {
+    this.listingSubscription?.unsubscribe();
+    this.listingSubscription = this.dataService.fetchSpaceDirectory().subscribe(response => {
+      this.directoryResponse(response);
+      event.target.complete();
+    });
+  }
+
   ngOnDestroy(): void 
   {
     this.listingSubscription?.unsubscribe();

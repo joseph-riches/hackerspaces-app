@@ -7,6 +7,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Hackerspaces</ion-title>
@@ -21,7 +26,8 @@
 
   <!-- List of Text Items -->
   <ion-list *ngIf="listings">
-    <ion-item *ngFor="let listing of listings">
+    <ion-item  *ngFor="let listing of listings">
+      <ion-icon slot="end" name="checkmark-circle-outline" color="success"></ion-icon>
       <ion-label>{{listing.space}}</ion-label>
     </ion-item>
   </ion-list>
