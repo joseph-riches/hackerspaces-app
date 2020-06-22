@@ -28,6 +28,8 @@ export class Tab1Page implements OnInit {
 
   doRefresh(event)
   {
-    event.target.complete();
+    this.space.subscribe(() => event.target.complete());
   }
 }
+
+
