@@ -19,6 +19,8 @@ export class Tab1Page implements OnInit {
   {
     this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+    //this.space = this.dataService.fetchSpace("http://hack42.nl/spacestate/json.php");
+
     this.space = this.dataService.fetchSpace("http://space.nurdspace.nl/spaceapi/status.json");
   }
 
