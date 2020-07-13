@@ -1,13 +1,14 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title *ngIf="space | async as data">
-      {{data.space}}
+    <ion-title>
+      Hackerspaces
     </ion-title>
+    <ion-toggle (ionChange)="toggleCompactView()" [(ngModel)]="isCompact" slot="end"></ion-toggle>
     <ion-toggle (ionChange)="toggleDarkTheme($event.detail.checked)" [(ngModel)]="isDark" slot="end"></ion-toggle>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="space | async as data" [fullscreen]="true">
+<ion-content [fullscreen]="true">
   
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
@@ -19,104 +20,127 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card>
-    <img style="max-height: 200px;" class="logo" [src]="data.logo">
-  </ion-card>
+  <!-- <ng-container *ngIf="!isCompact; else compactView">
 
-  <ion-card>
-    <ion-list>
-      <ion-list-header>
-        <ion-label>Space Status</ion-label>
-      </ion-list-header>
-      <ion-item lines="none">
-        <ion-icon slot="start" [name]="data.state.open ? 'lock-open' : 'lock-closed'" [color]="data.state.open ? 'success' : 'danger'"></ion-icon>
-        <ion-label>
-          <h2>{{data.state.message ? data.state.message : data.state.open ? 'Open' : 'Closed'}}</h2>
-          <p *ngIf="data.state.lastchange">Last Updated: {{data.state.lastchange * 1000 | date:'d/M/yy h:mm a'}}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card>
+    <ion-card>
+      <img style="max-height: 200px;" class="logo" [src]="data.logo">
+    </ion-card>
 
-  <ion-card>
-    <ion-list>
-      <ion-list-header>
-        <ion-label>Location Details</ion-label>
-      </ion-list-header>
-      <ion-item lines="none">
-        <ion-icon slot="start" name="compass"></ion-icon>
-        <ion-label>
-          <h2>{{data.location.address}}</h2>
-          <p>Coordinates: {{data.location.lat}}, {{data.location.lon}}</p>
-        </ion-label>
+    <ion-card>
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Space Status</ion-label>
+        </ion-list-header>
+        <ion-item lines="none">
+          <ion-icon slot="start" [name]="data.state.open ? 'lock-open' : 'lock-closed'" [color]="data.state.open ? 'success' : 'danger'"></ion-icon>
+          <ion-label>
+            <h2>{{data.state.message ? data.state.message : data.state.open ? 'Open' : 'Closed'}}</h2>
+            <p *ngIf="data.state.lastchange">Last Updated: {{data.state.lastchange * 1000 | date:'d/M/yy h:mm a'}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card>
 
-        <ion-button slot="end" (click)="onClick()">
-          <ion-icon slot="icon-only" name="open-outline"></ion-icon>
-        </ion-button>
+    <ion-card>
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Location Details</ion-label>
+        </ion-list-header>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="compass"></ion-icon>
+          <ion-label>
+            <h2>{{data.location.address}}</h2>
+            <p>Coordinates: {{data.location.lat}}, {{data.location.lon}}</p>
+          </ion-label>
 
-      </ion-item>
-    </ion-list>
-  </ion-card>
+          <ion-button slot="end" (click)="onClick()">
+            <ion-icon slot="icon-only" name="open-outline"></ion-icon>
+          </ion-button>
+
+        </ion-item>
+      </ion-list>
+    </ion-card>
 
 
-  <ion-card>
-    <ion-list>
+    <ion-card>
+      <ion-list>
 
-      <ion-list-header>
-        <ion-label>Contact Details</ion-label>
-      </ion-list-header>
+        <ion-list-header>
+          <ion-label>Contact Details</ion-label>
+        </ion-list-header>
 
-      <ion-item lines="none">
-        <ion-icon slot="start" name="link"></ion-icon>
-        <ion-label>
-          <p>Website</p>
-          <h2>{{data.url}}</h2>
-        </ion-label>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="link"></ion-icon>
+          <ion-label>
+            <p>Website</p>
+            <h2>{{data.url}}</h2>
+          </ion-label>
 
-        <ion-button slot="end" (click)="onClick()">
-          <ion-icon slot="icon-only" name="open-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
-    
-      <ion-item lines="none">
-        <ion-icon slot="start" name="chatbubbles"></ion-icon>
-        <ion-label>
-          <p>IRC Channel</p>
-          <h2>{{data.contact.irc}}</h2>
-        </ion-label>
+          <ion-button slot="end" (click)="onClick()">
+            <ion-icon slot="icon-only" name="open-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      
+        <ion-item lines="none">
+          <ion-icon slot="start" name="chatbubbles"></ion-icon>
+          <ion-label>
+            <p>IRC Channel</p>
+            <h2>{{data.contact.irc}}</h2>
+          </ion-label>
 
-        <ion-button slot="end" (click)="onClick()">
-          <ion-icon slot="icon-only" name="open-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
+          <ion-button slot="end" (click)="onClick()">
+            <ion-icon slot="icon-only" name="open-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
 
-      <ion-item lines="none">
-        <ion-icon slot="start" name="logo-twitter"></ion-icon>
-        <ion-label>
-          <p>Twitter</p>
-          <h2>{{data.contact.twitter}}</h2>
-        </ion-label>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="logo-twitter"></ion-icon>
+          <ion-label>
+            <p>Twitter</p>
+            <h2>{{data.contact.twitter}}</h2>
+          </ion-label>
 
-        <ion-button slot="end" (click)="onClick()">
-          <ion-icon slot="icon-only" name="open-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
+          <ion-button slot="end" (click)="onClick()">
+            <ion-icon slot="icon-only" name="open-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
 
-      <ion-item lines="none">
-        <ion-icon slot="start" name="mail"></ion-icon>
-        <ion-label>
-          <p>Email Address</p>
-          <h2>{{data.contact.ml}}</h2>
-        </ion-label>
+        <ion-item lines="none">
+          <ion-icon slot="start" name="mail"></ion-icon>
+          <ion-label>
+            <p>Email Address</p>
+            <h2>{{data.contact.ml}}</h2>
+          </ion-label>
 
-        <ion-button slot="end" (click)="onClick()">
-          <ion-icon slot="icon-only" name="open-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
+          <ion-button slot="end" (click)="onClick()">
+            <ion-icon slot="icon-only" name="open-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
 
-    </ion-list>
-  </ion-card>
+      </ion-list>
+    </ion-card>
 
-  <img class="logo" [src]="data.cam">
+    <img class="logo" [src]="data.cam">
+
+  </ng-container> -->
+
+  <!-- <ng-template #compactView> -->
+
+    <ion-card *ngFor="let data of spaces">
+      <ion-list>
+        <ion-list-header>
+          <ion-label>{{data.space}} Status</ion-label>
+        </ion-list-header>
+        <ion-item lines="none">
+          <ion-icon slot="start" [name]="data.state.open ? 'lock-open' : 'lock-closed'" [color]="data.state.open ? 'success' : 'danger'"></ion-icon>
+          <ion-label>
+            <h2>{{data.state.message ? data.state.message : data.state.open ? 'Open' : 'Closed'}}</h2>
+            <p *ngIf="data.state.lastchange">Last Updated: {{data.state.lastchange * 1000 | date:'d/M/yy h:mm a'}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+
+  <!-- </ng-template> -->
 
 </ion-content>

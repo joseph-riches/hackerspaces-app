@@ -26,8 +26,8 @@
 
   <!-- List of Text Items -->
   <ion-list *ngIf="listings">
-    <ion-item  *ngFor="let listing of listings">
-      <ion-icon slot="end" name="checkmark-circle-outline" color="success"></ion-icon>
+    <ion-item *ngFor="let listing of listings" button (click)="addToFavourites(listing)">
+      <ion-icon *ngIf="isSaved(listing)" slot="end" name="checkmark-circle-outline" color="success"></ion-icon>
       <ion-label>{{listing.space}}</ion-label>
     </ion-item>
   </ion-list>

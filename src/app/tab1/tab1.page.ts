@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { DataService } from '../spaces/service/data.service';
 import { Space } from '../spaces/domain/space';
+import { Listing } from '../spaces/domain/listing';
 
 @Component({
   selector: 'app-tab1',
@@ -11,17 +12,33 @@ import { Space } from '../spaces/domain/space';
 export class Tab1Page implements OnInit {
 
   isDark: boolean = false;
-  space: Observable<Space>;
+  isCompact: boolean = true;
 
-  constructor(private dataService: DataService){}
+  subscriptions: Subscription[] = [];
+  savedListings: Listing[] = [];
+
+  spaces: Space[] = [];
+
+  constructor(private dataService: DataService)
+  {
+    this.subscriptions.push(this.dataService.savedListings.subscribe(savedListings => savedListings ? this.loadSavedSpaces(savedListings) : []));
+  }
+
+  loadSavedSpaces(savedListings: Listing[])
+  {
+    this.spaces = [];
+    
+    this.savedListings = savedListings;
+
+    if(savedListings != null)
+    {
+      savedListings.forEach(element =>  { console.log(element); this.subscriptions.push(this.dataService.fetchSpace(element.url).subscribe(space => { this.spaces.push(space) })) });
+    }
+  }
 
   ngOnInit(): void 
   {
     this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    //this.space = this.dataService.fetchSpace("http://hack42.nl/spacestate/json.php");
-
-    this.space = this.dataService.fetchSpace("http://space.nurdspace.nl/spaceapi/status.json");
   }
 
   toggleDarkTheme(shouldAdd) {
@@ -30,7 +47,7 @@ export class Tab1Page implements OnInit {
 
   doRefresh(event)
   {
-    this.space.subscribe(() => event.target.complete());
+    //this.space.subscribe(() => event.target.complete());
   }
 }
 
