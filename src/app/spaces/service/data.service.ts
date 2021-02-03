@@ -45,9 +45,7 @@ export class DataService {
 
   fetchSpaceDirectory (): Observable<Listing[]>
   {
-    var httpOptions = { headers: new HttpHeaders({'Content-Type': 'application/json'})};
-
-    return this.http.get<Listing[]>('https://api.spaceapi.io/v2', httpOptions);
+    return this.http.get<Listing[]>('https://api.spaceapi.io/v2');
   }
 
   setDirectoryListings(directoryListings: Listing[])

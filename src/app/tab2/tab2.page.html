@@ -1,41 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Hackerspaces
+      Tab 2
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Hackerspaces</ion-title>
+      <ion-title size="large">Tab 2</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <!-- Searchbar with cancel button always shown -->
-  <ion-searchbar
-    [(ngModel)]="searchTerm"
-    (ionChange)="setFilteredItems()"
-  ></ion-searchbar>
-
-  <!-- List of Text Items -->
-  <ion-list *ngIf="listings">
-    <ion-item *ngFor="let listing of listings" button (click)="addToFavourites(listing)">
-      <ion-icon *ngIf="isSaved(listing)" slot="end" name="checkmark-circle-outline" color="success"></ion-icon>
-      <ion-label>{{listing.space}}</ion-label>
-    </ion-item>
-  </ion-list>
-
-  <ion-list *ngIf="!listings">
-    <ion-item>
-      <ion-label>No Listings Found</ion-label>
-    </ion-item>
-  </ion-list>
-
 </ion-content>

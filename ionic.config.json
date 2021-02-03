@@ -1,14 +1,7 @@
 {
-  "name": "Hackerspaces",
+  "name": "hackerspaces",
   "integrations": {
-    "capacitor": {},
-    "cordova": {}
+    "capacitor": {}
   },
-  "proxies": [
-    {
-      "path": "/directory",
-      "proxyUrl": "https://directory.spaceapi.io/"
-    }
-  ],
   "type": "angular"
 }

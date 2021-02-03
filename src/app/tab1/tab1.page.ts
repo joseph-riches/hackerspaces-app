@@ -1,54 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { DataService } from '../spaces/service/data.service';
-import { Space } from '../spaces/domain/space';
+import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Listing } from '../spaces/domain/listing';
+import { Space } from '../spaces/domain/space';
+import { DataService } from '../spaces/service/data.service';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit {
+export class Tab1Page {
 
-  isDark: boolean = false;
-  isCompact: boolean = true;
+  listingSubscription: Subscription;
+  listings: Listing[];
 
-  subscriptions: Subscription[] = [];
-  savedListings: Listing[] = [];
-
+  spaceSubscriptions: Subscription[] = [];
   spaces: Space[] = [];
 
-  constructor(private dataService: DataService)
-  {
-    this.subscriptions.push(this.dataService.savedListings.subscribe(savedListings => savedListings ? this.loadSavedSpaces(savedListings) : []));
-  }
-
-  loadSavedSpaces(savedListings: Listing[])
-  {
-    this.spaces = [];
-    
-    this.savedListings = savedListings;
-
-    if(savedListings != null)
-    {
-      savedListings.forEach(element =>  { console.log(element); this.subscriptions.push(this.dataService.fetchSpace(element.url).subscribe(space => { this.spaces.push(space) })) });
-    }
-  }
+  constructor(private dataService: DataService){}
 
   ngOnInit(): void 
   {
-    this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    this.listingSubscription = this.dataService.fetchSpaceDirectory().subscribe(response => this.directoryResponse(response));
   }
 
-  toggleDarkTheme(shouldAdd) {
-    document.body.classList.toggle('dark', shouldAdd);
-  }
-
-  doRefresh(event)
+  directoryResponse(response: any): void 
   {
-    //this.space.subscribe(() => event.target.complete());
+    response.forEach(element =>  { console.log(element); this.spaceSubscriptions.push(this.dataService.fetchSpace(element.url).subscribe(space => { space ? this.spaces.push(space) : null } )) });
   }
 }
-
-

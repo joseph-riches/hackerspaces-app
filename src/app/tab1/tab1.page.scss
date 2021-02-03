@@ -1,17 +1,18 @@
-/* css -- see note below */
-ion-avatar,
-ion-avatar > img {
-    border-radius: 4px;
-    height: 3rem;
-    width: 3rem;
+ion-col {
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+}
+ion-card {
+    padding-top: 12px;
+    margin-bottom: 12px;
+    width: 100%;
 }
 
-.logo {
-    border-radius: 4px;
-    margin: auto;
-    display: block;
+.open{
+    background-color: #2dd36f;
 }
 
-ion-card{
-    box-shadow: none;
+.closed{
+    background-color: #eb445a;
 }
