@@ -11,21 +11,18 @@ import { DataService } from '../spaces/service/data.service';
 })
 export class Tab1Page {
 
-  listingSubscription: Subscription;
-  listings: Listing[];
-
-  spaceSubscriptions: Subscription[] = [];
+  spaceSubscription: Subscription;
   spaces: Space[] = [];
 
   constructor(private dataService: DataService){}
 
   ngOnInit(): void 
   {
-    this.listingSubscription = this.dataService.fetchSpaceDirectory().subscribe(response => this.directoryResponse(response));
+    this.spaceSubscription = this.dataService.fetchLatestStatus().subscribe(response => this.sortStatusResponse(response));
   }
 
-  directoryResponse(response: any): void 
+  sortStatusResponse(response: Space[])
   {
-    response.forEach(element =>  { console.log(element); this.spaceSubscriptions.push(this.dataService.fetchSpace(element.url).subscribe(space => { space ? this.spaces.push(space) : null } )) });
+    this.spaces = response.sort((a, b) => (a.state?.open === b.state?.open) ? 0 : a.state?.open ? -1 : 1);
   }
 }

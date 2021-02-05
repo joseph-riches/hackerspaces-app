@@ -9,58 +9,22 @@ import { Space } from '../domain/space';
 })
 export class DataService {
 
-  private savedListingsSubject: BehaviorSubject<Listing[]>;
-  public savedListings: Observable<Listing[]>;
-
-  public directoryListings: Listing[];
+  private spaceStatusSubject: BehaviorSubject<Space[]>;
+  public spaceStatus: Observable<Space[]>;
 
   constructor(private http: HttpClient)
   {
-    this.savedListingsSubject = new BehaviorSubject<Listing[]>(JSON.parse(localStorage.getItem('savedListings')));
-    this.savedListings = this.savedListingsSubject.asObservable();
+    this.spaceStatusSubject = new BehaviorSubject<Space[]>(JSON.parse(localStorage.getItem('spaceStatus')));
+    this.spaceStatus = this.spaceStatusSubject.asObservable();
   }
 
-  public get savedListingsValue(): Listing[] 
+  public get status(): Space[]
   {
-    return this.savedListingsSubject.value;
+    return this.spaceStatusSubject.value;
   }
 
-  toggleListing (listing: Listing)
+  fetchLatestStatus (): Observable<Space[]>
   {
-    let savedListings = this.savedListingsValue ? this.savedListingsValue : [];
-
-    if(!savedListings.some(element => element.url === listing.url))
-    {
-      savedListings.push(listing);
-      localStorage.setItem('savedListings', JSON.stringify(savedListings));
-      this.savedListingsSubject.next(savedListings);
-    }
-    else
-    {
-      savedListings = savedListings.filter(element => element.url !== listing.url);
-      localStorage.setItem('savedListings', JSON.stringify(savedListings));
-      this.savedListingsSubject.next(savedListings);
-    }
-  }
-
-  fetchSpaceDirectory (): Observable<Listing[]>
-  {
-    return this.http.get<Listing[]>('https://api.spaceapi.io/v2');
-  }
-
-  setDirectoryListings(directoryListings: Listing[])
-  {
-    this.directoryListings = directoryListings;
-  }
-
-  filterSpaceDirectory(searchTerm) {
-    return this.directoryListings.filter(item => {
-      return item.space.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-    });
-  }
-
-  fetchSpace (url: string): Observable<Space>
-  {
-    return this.http.get<Space>(url);
+    return this.http.get<Space[]>('https://hackerspace-resources.s3.eu-central-1.amazonaws.com/data/latest.json');
   }
 }
