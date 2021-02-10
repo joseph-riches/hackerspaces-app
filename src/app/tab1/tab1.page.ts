@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Listing } from '../spaces/domain/listing';
 import { Space } from '../spaces/domain/space';
 import { DataService } from '../spaces/service/data.service';
 
